@@ -78,7 +78,7 @@ export default function CriarPage() {
       return
     }
     if (step === 4 && form.temFoto && !form.foto) {
-      setErro("Envie uma imagem ou escolha usar foto genérica.")
+      setErro("Envie a logo ou imagem da empresa para continuar.")
       return
     }
     setErro("")
@@ -260,29 +260,31 @@ export default function CriarPage() {
           {step === 4 && (
             <div className="flex flex-col gap-6">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Tem foto do seu trabalho?</h1>
-                <p className="text-gray-500 mt-2">Uma imagem deixa sua página muito mais profissional.</p>
+                <h1 className="text-3xl font-bold text-gray-900">Logo ou foto do negócio</h1>
+                <p className="text-gray-500 mt-2">Uma imagem profissional aumenta muito a credibilidade da página.</p>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-3">
                 <button
                   onClick={() => setForm({ ...form, temFoto: true })}
-                  className={`p-4 rounded-xl border-2 font-medium transition-all ${
-                    form.temFoto
-                      ? "border-indigo-600 bg-indigo-50 text-indigo-700"
-                      : "border-gray-200 text-gray-700 hover:border-indigo-300"
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${
+                    form.temFoto === true
+                      ? "border-indigo-600 bg-indigo-50"
+                      : "border-gray-200 hover:border-indigo-300"
                   }`}
                 >
-                  Sim, vou enviar
+                  <span className={`font-medium block ${form.temFoto === true ? "text-indigo-700" : "text-gray-700"}`}>Sim, vou enviar minha logo</span>
+                  <span className="text-sm text-gray-500">Logo da empresa, foto do produto ou do local</span>
                 </button>
                 <button
                   onClick={() => setForm({ ...form, temFoto: false, foto: null })}
-                  className={`p-4 rounded-xl border-2 font-medium transition-all ${
-                    !form.temFoto
-                      ? "border-indigo-600 bg-indigo-50 text-indigo-700"
-                      : "border-gray-200 text-gray-700 hover:border-indigo-300"
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${
+                    form.temFoto === false
+                      ? "border-indigo-600 bg-indigo-50"
+                      : "border-gray-200 hover:border-indigo-300"
                   }`}
                 >
-                  Usar foto genérica
+                  <span className={`font-medium block ${form.temFoto === false ? "text-indigo-700" : "text-gray-700"}`}>Usar inicial do nome</span>
+                  <span className="text-sm text-gray-500">Exibe a primeira letra do negócio com sua cor</span>
                 </button>
               </div>
 
@@ -314,10 +316,10 @@ export default function CriarPage() {
                         ? `✓ ${form.foto.name}`
                         : arrastando
                         ? "Solte a imagem aqui"
-                        : "Arraste a imagem ou clique para selecionar"}
+                        : "Arraste a logo ou clique para selecionar"}
                     </span>
                     {!form.foto && (
-                      <span className="text-xs text-gray-400">PNG, JPG ou WEBP</span>
+                      <span className="text-xs text-gray-400">PNG, JPG ou WEBP — recomendado fundo branco ou transparente</span>
                     )}
                   </div>
                 </div>

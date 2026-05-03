@@ -97,18 +97,27 @@ export default function BusinessPage({ data, preview = false }: { data: Business
             </div>
           </div>
 
-          {/* Avatar/Foto */}
+          {/* Logo/Foto */}
           <div className="flex-shrink-0">
             {data.fotoUrl ? (
-              <div className="w-48 h-48 md:w-64 md:h-64 rounded-3xl overflow-hidden shadow-2xl">
-                <img src={data.fotoUrl} alt={data.nome} className="w-full h-full object-cover" />
+              <div
+                className="w-48 h-48 md:w-64 md:h-64 rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center bg-white"
+                style={{ border: `2px solid ${corEscura}` }}
+              >
+                <img
+                  src={data.fotoUrl}
+                  alt={data.nome}
+                  className="w-full h-full object-contain p-3"
+                />
               </div>
             ) : (
               <div
-                className="w-48 h-48 md:w-64 md:h-64 rounded-3xl flex items-center justify-center text-7xl font-black shadow-2xl"
-                style={{ backgroundColor: cor, color: "rgba(255,255,255,0.9)" }}
+                className="w-48 h-48 md:w-64 md:h-64 rounded-3xl flex items-center justify-center shadow-2xl select-none"
+                style={{ backgroundColor: cor }}
               >
-                {data.nome.charAt(0)}
+                <span className="text-7xl md:text-8xl font-black" style={{ color: "rgba(255,255,255,0.92)" }}>
+                  {data.nome.charAt(0).toUpperCase()}
+                </span>
               </div>
             )}
           </div>

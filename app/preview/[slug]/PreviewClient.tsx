@@ -139,39 +139,74 @@ export default function PreviewClient({ data, expirado }: { data: BusinessData; 
           {/* Copy */}
           {tab === "copy" && (
             <div className="flex flex-col gap-4">
-              <p className="text-sm text-gray-500">3 versões prontas para colar no Meta Ads.</p>
-              {(["versao1", "versao2", "versao3"] as const).map((v, i) => (
-                <div key={v} className="bg-white border border-gray-200 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">
-                      Versão {i + 1}
-                    </span>
-                    <button
-                      onClick={() => copiar(`${data.copyAnuncio[v].titulo}\n\n${data.copyAnuncio[v].texto}`, v)}
-                      className="flex items-center gap-1 text-xs text-gray-500 hover:text-indigo-600"
-                    >
-                      {copiado === v ? <Check size={14} /> : <Copy size={14} />}
-                      {copiado === v ? "Copiado!" : "Copiar"}
-                    </button>
+              <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-3">
+                <p className="text-sm text-indigo-700 font-medium">3 anúncios prontos para o Meta Ads</p>
+                <p className="text-xs text-indigo-500 mt-0.5">Copie e cole direto no Gerenciador de Anúncios do Facebook/Instagram.</p>
+              </div>
+              {(["versao1", "versao2", "versao3"] as const).map((v, i) => {
+                const angulos = ["Ângulo: Dor", "Ângulo: Prova Social", "Ângulo: Oferta"]
+                const cores = ["text-rose-600 bg-rose-50 border-rose-100", "text-emerald-600 bg-emerald-50 border-emerald-100", "text-amber-600 bg-amber-50 border-amber-100"]
+                return (
+                  <div key={v} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Versão {i + 1}</span>
+                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${cores[i]}`}>
+                          {angulos[i]}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => copiar(`${data.copyAnuncio[v].titulo}\n\n${data.copyAnuncio[v].texto}`, v)}
+                        className="flex items-center gap-1 text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors"
+                      >
+                        {copiado === v ? <Check size={13} className="text-green-500" /> : <Copy size={13} />}
+                        {copiado === v ? "Copiado!" : "Copiar tudo"}
+                      </button>
+                    </div>
+                    <div className="p-4">
+                      <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Título</p>
+                      <p className="font-bold text-gray-900 text-base mb-3">{data.copyAnuncio[v].titulo}</p>
+                      <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Texto do anúncio</p>
+                      <p className="text-gray-700 text-sm leading-relaxed">{data.copyAnuncio[v].texto}</p>
+                    </div>
                   </div>
-                  <p className="font-semibold text-gray-900">{data.copyAnuncio[v].titulo}</p>
-                  <p className="text-gray-500 text-sm mt-1">{data.copyAnuncio[v].texto}</p>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
 
           {/* Bio */}
           {tab === "bio" && (
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <p className="text-sm text-gray-500 mb-4">Texto otimizado para a bio do Instagram.</p>
-              <p className="text-gray-900 text-lg leading-relaxed">{data.textoBio}</p>
+            <div className="flex flex-col gap-4">
+              <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-3">
+                <p className="text-sm text-indigo-700 font-medium">Bio para o Instagram</p>
+                <p className="text-xs text-indigo-500 mt-0.5">Cole direto no campo de biografia do seu perfil.</p>
+              </div>
+              <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                {/* Mockup Instagram */}
+                <div className="bg-gray-50 border-b border-gray-200 px-4 py-3 flex items-center gap-3">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-base flex-shrink-0"
+                    style={{ backgroundColor: data.corPrimaria || "#6366f1" }}
+                  >
+                    {data.nome.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">{data.nome.toLowerCase().replace(/\s+/g, "_")}</p>
+                    <p className="text-xs text-gray-400">Perfil profissional</p>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <p className="text-gray-900 text-sm leading-relaxed whitespace-pre-line">{data.textoBio}</p>
+                  <p className="text-xs text-gray-400 mt-3">{data.textoBio.length} / 150 caracteres</p>
+                </div>
+              </div>
               <button
                 onClick={() => copiar(data.textoBio, "bio")}
-                className="mt-4 flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                className="flex items-center justify-center gap-2 w-full py-3 border-2 border-indigo-200 rounded-xl text-sm font-semibold text-indigo-600 hover:bg-indigo-50 transition-colors"
               >
                 {copiado === "bio" ? <Check size={16} /> : <Copy size={16} />}
-                {copiado === "bio" ? "Copiado!" : "Copiar texto"}
+                {copiado === "bio" ? "Copiado!" : "Copiar bio"}
               </button>
             </div>
           )}
