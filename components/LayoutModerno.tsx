@@ -201,7 +201,7 @@ export default function LayoutModerno({ data, preview = false }: { data: Busines
   ]
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden" style={{ fontFamily: "var(--font-geist), 'Inter', system-ui, sans-serif" }}>
+    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden" style={{ fontFamily: "var(--font-geist), 'Inter', system-ui, sans-serif", scrollBehavior: "smooth" }}>
       {data.pixelId && !preview && (
         <script
           dangerouslySetInnerHTML={{
@@ -237,10 +237,10 @@ export default function LayoutModerno({ data, preview = false }: { data: Busines
 
         {/* Links (desktop) */}
         <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-500 uppercase tracking-widest">
-          <span className="hover:text-gray-900 cursor-default transition-colors">Início</span>
-          <span className="hover:text-gray-900 cursor-default transition-colors">Sobre</span>
-          <span className="hover:text-gray-900 cursor-default transition-colors">Serviços</span>
-          <span className="hover:text-gray-900 cursor-default transition-colors">Contato</span>
+          <a href="#mod-inicio" className="hover:text-gray-900 transition-colors">Início</a>
+          <a href="#mod-sobre" className="hover:text-gray-900 transition-colors">Sobre</a>
+          {data.servicosOferecidos?.length ? <a href="#mod-servicos" className="hover:text-gray-900 transition-colors">Serviços</a> : null}
+          <a href="#mod-contato" className="hover:text-gray-900 transition-colors">Contato</a>
         </div>
 
         {/* Redes + CTA */}
@@ -279,7 +279,7 @@ export default function LayoutModerno({ data, preview = false }: { data: Busines
       </nav>
 
       {/* Hero — split */}
-      <section className="relative overflow-hidden bg-white">
+      <section id="mod-inicio" className="relative overflow-hidden bg-white">
         <div className="grid lg:grid-cols-2 min-h-[540px] md:min-h-[600px]">
 
           {/* Coluna esquerda — conteúdo */}
@@ -355,16 +355,12 @@ export default function LayoutModerno({ data, preview = false }: { data: Busines
 
             {/* Imagem ou placeholder */}
             {data.fotoUrl ? (
-              <div className="absolute inset-0" style={{ backgroundColor: rgba(cor, 0.04) }}>
+              <div className="absolute inset-0 flex items-center justify-center p-10" style={{ backgroundColor: rgba(cor, 0.04) }}>
                 <img
                   src={data.fotoUrl}
                   alt={data.nome}
-                  className="w-full h-full object-cover object-center"
-                />
-                {/* Overlay sutil no canto */}
-                <div
-                  className="absolute bottom-0 left-0 w-2/3 h-1/3 opacity-30"
-                  style={{ background: `linear-gradient(to top right, ${cor}, transparent)` }}
+                  className="max-w-full max-h-full object-contain"
+                  style={{ maxHeight: "420px" }}
                 />
               </div>
             ) : (
@@ -412,7 +408,7 @@ export default function LayoutModerno({ data, preview = false }: { data: Busines
       </section>
 
       {/* Sobre — split invertido */}
-      <section className="px-8 md:px-12 py-20 md:py-28">
+      <section id="mod-sobre" className="px-8 md:px-12 py-20 md:py-28">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
           {/* Visual */}
           <div className="relative order-2 md:order-1">
@@ -421,7 +417,9 @@ export default function LayoutModerno({ data, preview = false }: { data: Busines
               style={{ backgroundColor: rgba(cor, 0.06), border: `2px solid ${rgba(cor, 0.15)}` }}
             >
               {data.fotoUrl ? (
-                <img src={data.fotoUrl} alt={data.nome} className="w-full h-64 md:h-80 object-contain p-8" />
+                <div className="h-64 md:h-80 flex items-center justify-center p-8">
+                  <img src={data.fotoUrl} alt={data.nome} className="max-w-full max-h-full object-contain" />
+                </div>
               ) : (
                 <div className="h-64 md:h-80 flex items-center justify-center">
                   <span className="font-black text-[6rem] leading-none select-none" style={{ color: rgba(cor, 0.2) }}>{inicial}</span>
@@ -467,7 +465,7 @@ export default function LayoutModerno({ data, preview = false }: { data: Busines
 
       {/* Serviços */}
       {data.servicosOferecidos && data.servicosOferecidos.length > 0 && (
-        <section className="px-8 md:px-12 py-20 md:py-24" style={{ backgroundColor: rgba(cor, 0.04) }}>
+        <section id="mod-servicos" className="px-8 md:px-12 py-20 md:py-24" style={{ backgroundColor: rgba(cor, 0.04) }}>
           <div className="max-w-5xl mx-auto">
             <div className="flex items-center gap-4 mb-12">
               <div className="w-10 h-0.5" style={{ backgroundColor: cor }} />
@@ -587,7 +585,7 @@ export default function LayoutModerno({ data, preview = false }: { data: Busines
       </section>
 
       {/* CTA Final */}
-      <section className="px-8 md:px-12 py-20 md:py-24 bg-gray-50">
+      <section id="mod-contato" className="px-8 md:px-12 py-20 md:py-24 bg-gray-50">
         <div className="max-w-5xl mx-auto">
           <div className="relative overflow-hidden bg-gray-900 p-10 md:p-16 grid md:grid-cols-[1.4fr_1fr] gap-10 items-center">
             {/* Decoração */}

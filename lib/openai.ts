@@ -16,7 +16,6 @@ type ConteudoGerado = Pick<
   | "processo"
   | "faq"
   | "prova"
-  | "servicosOferecidos"
 >
 
 export async function gerarConteudo(
@@ -33,7 +32,6 @@ export async function gerarConteudo(
     | "processo"
     | "faq"
     | "prova"
-    | "servicosOferecidos"
     | "criadoEm"
     | "expiraEm"
     | "pago"
@@ -68,12 +66,6 @@ Retorne JSON exatamente com este formato:
     {"pergunta": "...", "resposta": "..."},
     {"pergunta": "...", "resposta": "..."},
     {"pergunta": "...", "resposta": "..."}
-  ],
-  "servicosOferecidos": [
-    {"nome": "nome curto do serviço/produto 1 (2-4 palavras)", "descricao": "1 frase direta descrevendo esse serviço ou produto, do ponto de vista do cliente"},
-    {"nome": "serviço/produto 2", "descricao": "..."},
-    {"nome": "serviço/produto 3", "descricao": "..."},
-    {"nome": "serviço/produto 4", "descricao": "..."}
   ],
   "textoBio": "bio Instagram até 150 chars com 2-3 emojis: o que faz | para quem | resultado | CTA",
   "copyAnuncio": {

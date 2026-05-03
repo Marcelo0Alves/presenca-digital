@@ -7,16 +7,21 @@ import type { ContactType, ActionType, LayoutType } from "@/types"
 
 type Step = 1 | 2 | 3 | 4 | 5
 
+interface Servico {
+  nome: string
+  descricao: string
+}
+
 interface FormData {
   nomeLoja: string
   descricao: string
+  servicos: Servico[]
   contato: ContactType | ""
   acao: ActionType | ""
   layout: LayoutType
   whatsapp: string
   telefone: string
   instagram: string
-  linkLoja: string
   temFoto: boolean
   foto: File | null
 }
@@ -168,13 +173,13 @@ export default function CriarPage() {
   const [form, setForm] = useState<FormData>({
     nomeLoja: "",
     descricao: "",
+    servicos: [{ nome: "", descricao: "" }],
     contato: "",
     acao: "",
     layout: "editorial",
     whatsapp: "",
     telefone: "",
     instagram: "",
-    linkLoja: "",
     temFoto: false,
     foto: null,
   })
@@ -235,7 +240,7 @@ export default function CriarPage() {
       body.append("whatsapp", form.whatsapp)
       body.append("telefone", form.telefone)
       body.append("instagram", form.instagram)
-      body.append("linkLoja", form.linkLoja)
+      body.append("servicos", JSON.stringify(form.servicos))
       body.append("temFoto", String(form.temFoto))
       if (form.foto) body.append("foto", form.foto)
 
@@ -317,7 +322,7 @@ export default function CriarPage() {
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-lg">
 
-          {/* Step 1 — Nome + Descrição */}
+          {/* Step 1 — Nome + Descrição + Serviços */}
           {step === 1 && (
             <div className="flex flex-col gap-6">
               <div>
@@ -345,6 +350,61 @@ export default function CriarPage() {
                   maxLength={300}
                 />
                 <span className="text-xs text-gray-400 text-right">{form.descricao.length}/300</span>
+              </div>
+
+              {/* Serviços */}
+              <div className="flex flex-col gap-3">
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Seus serviços ou produtos <span className="text-gray-400 font-normal">(opcional)</span></label>
+                  <p className="text-xs text-gray-400 mt-0.5">Aparecem em destaque na sua página. Adicione até 4.</p>
+                </div>
+                {form.servicos.map((s, i) => (
+                  <div key={i} className="flex gap-2 items-start">
+                    <div className="flex-1 flex flex-col gap-1.5">
+                      <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder={`Ex: ${["Corte feminino", "Consultoria online", "Aula particular", "Massagem relaxante"][i] || "Serviço"}`}
+                        value={s.nome}
+                        onChange={(e) => {
+                          const novo = [...form.servicos]
+                          novo[i] = { ...novo[i], nome: e.target.value }
+                          setForm({ ...form, servicos: novo })
+                        }}
+                        maxLength={50}
+                      />
+                      <input
+                        type="text"
+                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Descrição curta (opcional)"
+                        value={s.descricao}
+                        onChange={(e) => {
+                          const novo = [...form.servicos]
+                          novo[i] = { ...novo[i], descricao: e.target.value }
+                          setForm({ ...form, servicos: novo })
+                        }}
+                        maxLength={100}
+                      />
+                    </div>
+                    {form.servicos.length > 1 && (
+                      <button
+                        onClick={() => setForm({ ...form, servicos: form.servicos.filter((_, j) => j !== i) })}
+                        className="mt-1 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                      </button>
+                    )}
+                  </div>
+                ))}
+                {form.servicos.length < 4 && (
+                  <button
+                    onClick={() => setForm({ ...form, servicos: [...form.servicos, { nome: "", descricao: "" }] })}
+                    className="flex items-center gap-2 text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors w-fit"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                    Adicionar serviço
+                  </button>
+                )}
               </div>
             </div>
           )}
@@ -416,9 +476,8 @@ export default function CriarPage() {
               </div>
               <div className="flex flex-col gap-3">
                 {[
-                  { value: "whatsapp", label: "Me chamar no WhatsApp", desc: "Botão direto para conversa" },
-                  { value: "agendamento", label: "Agendar um horário", desc: "Integração com calendário" },
-                  { value: "compra", label: "Comprar um produto", desc: "Link para checkout ou loja" },
+                  { value: "whatsapp", label: "Me chamar no WhatsApp", desc: "Botão direto para conversa no WhatsApp" },
+                  { value: "agendamento", label: "Agendar um horário", desc: "Formulário de agendamento integrado" },
                 ].map((op) => (
                   <button
                     key={op.value}
@@ -434,20 +493,6 @@ export default function CriarPage() {
                   </button>
                 ))}
               </div>
-
-              {form.acao === "compra" && (
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium text-gray-700">Link da sua loja ou produto <span className="text-gray-400 font-normal">(opcional)</span></label>
-                  <input
-                    type="url"
-                    className="border border-gray-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 placeholder-gray-500 bg-white"
-                    placeholder="Ex: shopee.com.br/loja, mercadolivre.com/..."
-                    value={form.linkLoja}
-                    onChange={(e) => setForm({ ...form, linkLoja: e.target.value })}
-                  />
-                  <span className="text-xs text-gray-400">Se não tiver, o botão vai direto para o WhatsApp.</span>
-                </div>
-              )}
             </div>
           )}
 
