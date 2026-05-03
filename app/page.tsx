@@ -75,12 +75,15 @@ export default function Home() {
       </section>
 
       <section className="px-6 py-20 max-w-4xl mx-auto w-full">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">O que você recebe</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">O que você recebe</h2>
+        <p className="text-center text-gray-500 mb-12 text-lg max-w-2xl mx-auto">
+          Tudo que você precisaria pagar separado para um designer, redator e agência de marketing — gerado em 5 minutos.
+        </p>
+        <div className="grid md:grid-cols-3 gap-6 mb-16">
           {[
-            { icon: <Zap size={24} className="text-indigo-600" />, title: "Página profissional", desc: "Design moderno gerado especificamente para o seu negócio." },
-            { icon: <TrendingUp size={24} className="text-indigo-600" />, title: "3 copies de anúncio", desc: "Prontos para colar no Meta Ads. Testados para converter." },
-            { icon: <Shield size={24} className="text-indigo-600" />, title: "Pixel configurado", desc: "Rastreamento de clientes automático sem precisar de dev." },
+            { icon: <Zap size={24} className="text-indigo-600" />, title: "Página profissional", desc: "Design moderno com cores, texto e layout gerados especificamente para o seu negócio." },
+            { icon: <TrendingUp size={24} className="text-indigo-600" />, title: "3 copies de anúncio prontos", desc: "Textos criados para converter, prontos para colar no Facebook e Instagram Ads." },
+            { icon: <Shield size={24} className="text-indigo-600" />, title: "Pixel do Meta configurado", desc: "Rastreamento automático de visitas e conversões. Sem precisar de dev ou agência." },
           ].map((item) => (
             <div key={item.title} className="border border-gray-200 rounded-xl p-6">
               <div className="mb-3">{item.icon}</div>
@@ -88,6 +91,33 @@ export default function Home() {
               <p className="text-gray-500 text-sm">{item.desc}</p>
             </div>
           ))}
+        </div>
+
+        {/* Seção explicativa dos anúncios */}
+        <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-8">
+          <div className="flex items-start gap-4 mb-6">
+            <TrendingUp size={32} className="text-indigo-600 flex-shrink-0 mt-1" />
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Como usar os anúncios gerados</h3>
+              <p className="text-gray-600">Em vez de pagar R$ 1.500/mês para uma agência criar seus anúncios, você recebe 3 versões prontas e publica você mesmo em minutos.</p>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { step: "01", title: "Copie o texto", desc: "Escolha uma das 3 versões geradas pela IA — cada uma com um ângulo diferente (dor, prova social ou oferta)." },
+              { step: "02", title: "Cole no Meta Ads", desc: "Acesse o Gerenciador de Anúncios do Facebook, crie uma campanha e cole o título e texto gerados." },
+              { step: "03", title: "Coloque o link da sua página", desc: "Use o link da sua página gerada como destino do anúncio. O Pixel já está configurado para rastrear tudo." },
+            ].map((item) => (
+              <div key={item.step} className="bg-white rounded-xl p-5 shadow-sm">
+                <span className="text-3xl font-black text-indigo-100 block mb-2">{item.step}</span>
+                <h4 className="font-bold text-gray-900 mb-1">{item.title}</h4>
+                <p className="text-gray-500 text-sm">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-sm text-indigo-700 font-medium text-center">
+            💡 Com R$ 10–20/dia de investimento em anúncios, você já começa a atrair clientes no primeiro dia.
+          </p>
         </div>
       </section>
 
