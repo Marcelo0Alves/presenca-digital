@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData()
 
+    const nomeLoja = (formData.get("nomeLoja") as string) || ""
     const descricao = formData.get("descricao") as string
     const contato = formData.get("contato") as ContactType
     const acao = formData.get("acao") as ActionType
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
 
     const conteudo = await gerarConteudo({
       slug: "",
+      nomeLoja,
       descricao,
       contato,
       acao,

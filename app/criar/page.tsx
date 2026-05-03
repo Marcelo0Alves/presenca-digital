@@ -8,6 +8,7 @@ import type { ContactType, ActionType } from "@/types"
 type Step = 1 | 2 | 3 | 4
 
 interface FormData {
+  nomeLoja: string
   descricao: string
   contato: ContactType | ""
   acao: ActionType | ""
@@ -26,6 +27,7 @@ export default function CriarPage() {
   const [erro, setErro] = useState("")
 
   const [form, setForm] = useState<FormData>({
+    nomeLoja: "",
     descricao: "",
     contato: "",
     acao: "",
@@ -37,6 +39,10 @@ export default function CriarPage() {
   })
 
   function avancar() {
+    if (step === 1 && !form.nomeLoja.trim()) {
+      setErro("Digite o nome da sua loja ou empresa.")
+      return
+    }
     if (step === 1 && !form.descricao.trim()) {
       setErro("Descreve seu negócio para continuar.")
       return
@@ -76,6 +82,7 @@ export default function CriarPage() {
     try {
       const body = new FormData()
       body.append("descricao", form.descricao)
+      body.append("nomeLoja", form.nomeLoja)
       body.append("contato", form.contato)
       body.append("acao", form.acao)
       body.append("whatsapp", form.whatsapp)
@@ -115,20 +122,33 @@ export default function CriarPage() {
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-lg">
 
-          {/* Step 1 — Descrição */}
+          {/* Step 1 — Nome + Descrição */}
           {step === 1 && (
             <div className="flex flex-col gap-6">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Descreve seu negócio</h1>
-                <p className="text-gray-500 mt-2">Uma frase é suficiente. Quanto mais detalhes, melhor o resultado.</p>
+                <h1 className="text-3xl font-bold text-gray-900">Conta sobre seu negócio</h1>
+                <p className="text-gray-500 mt-2">Quanto mais detalhes, melhor o resultado.</p>
               </div>
-              <textarea
-                className="w-full border border-gray-200 rounded-xl p-4 text-gray-900 text-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[140px]"
-                placeholder="Ex: Sou personal trainer em São Paulo e atendo mulheres acima de 40 anos que querem emagrecer sem lesões"
-                value={form.descricao}
-                onChange={(e) => setForm({ ...form, descricao: e.target.value })}
-                maxLength={300}
-              />
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-gray-700">Nome da loja ou empresa</label>
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-xl p-4 text-gray-900 placeholder-gray-500 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Ex: Bikes & Cia, Studio Glow, Dr. Ana Souza..."
+                  value={form.nomeLoja}
+                  onChange={(e) => setForm({ ...form, nomeLoja: e.target.value })}
+                  maxLength={60}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-gray-700">Descreva o que você faz</label>
+                <textarea
+                  className="w-full border border-gray-300 rounded-xl p-4 text-gray-900 placeholder-gray-500 bg-white text-base resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[120px]"
+                  placeholder="Ex: Sou personal trainer em São Paulo e atendo mulheres acima de 40 anos que querem emagrecer sem lesões"
+                  value={form.descricao}
+                  onChange={(e) => setForm({ ...form, descricao: e.target.value })}
+                  maxLength={300}
+                />
               <span className="text-xs text-gray-400 text-right">{form.descricao.length}/300</span>
             </div>
           )}

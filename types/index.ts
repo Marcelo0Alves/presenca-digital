@@ -3,6 +3,7 @@ export type ActionType = "whatsapp" | "agendamento" | "compra"
 
 export interface BusinessData {
   slug: string
+  nomeLoja: string
   descricao: string
   contato: ContactType
   acao: ActionType
