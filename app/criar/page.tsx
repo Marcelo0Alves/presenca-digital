@@ -149,7 +149,8 @@ export default function CriarPage() {
                   onChange={(e) => setForm({ ...form, descricao: e.target.value })}
                   maxLength={300}
                 />
-              <span className="text-xs text-gray-400 text-right">{form.descricao.length}/300</span>
+                <span className="text-xs text-gray-400 text-right">{form.descricao.length}/300</span>
+              </div>
             </div>
           )}
 

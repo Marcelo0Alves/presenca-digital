@@ -54,6 +54,7 @@ export async function POST(req: NextRequest) {
 
     const data: BusinessData = {
       slug,
+      nomeLoja,
       descricao,
       contato,
       acao,
