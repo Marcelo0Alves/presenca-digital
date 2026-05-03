@@ -50,7 +50,7 @@ export default function PreviewClient({ data, expirado }: { data: BusinessData; 
             className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
           >
             <Crown size={16} />
-            Manter por R$ 49/mês
+            Manter por R$ 127/mês
           </button>
         )}
       </div>
@@ -71,7 +71,7 @@ export default function PreviewClient({ data, expirado }: { data: BusinessData; 
         <div className="bg-amber-50 border-b border-amber-200 px-6 py-3 flex items-center gap-2 text-amber-700">
           <AlertTriangle size={16} />
           <span className="text-sm">
-            Seu link fica ativo por 7 dias gratuitamente. Para manter para sempre,{" "}
+            Seu link fica ativo por 3 dias gratuitamente. Para manter para sempre,{" "}
             <button onClick={assinar} className="font-semibold underline">assine o plano.</button>
           </span>
         </div>

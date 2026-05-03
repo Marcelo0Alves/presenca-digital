@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     const agora = new Date()
     const expira = new Date(agora)
-    expira.setDate(expira.getDate() + 7)
+    expira.setDate(expira.getDate() + 3)
 
     const data: BusinessData = {
       slug,

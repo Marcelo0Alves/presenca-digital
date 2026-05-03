@@ -19,7 +19,7 @@ export default function Home() {
       <section className="px-8 pt-24 pb-32 md:pt-32 md:pb-40 flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 border border-gray-200 text-gray-500 text-xs font-medium px-4 py-1.5 rounded-full mb-10">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-          7 dias grátis · Sem cartão de crédito
+          3 dias grátis · Sem cartão de crédito
         </div>
 
         <h1 className="text-5xl md:text-7xl font-bold text-gray-900 max-w-4xl leading-[1.05] tracking-tight mb-8">
@@ -74,7 +74,7 @@ export default function Home() {
                   depois: "Você mesmo",
                   desc: "Criar sua página profissional",
                   precoAntes: "R$ 3.000",
-                  precoDepois: "R$ 49/mês",
+                  precoDepois: "R$ 127/mês",
                 },
                 {
                   antes: "Redator",
@@ -257,10 +257,10 @@ export default function Home() {
 
           <div className="bg-white border border-gray-100 rounded-3xl p-8 shadow-xl">
             <div className="flex items-end justify-center gap-1 mb-1">
-              <span className="text-6xl font-black text-gray-900">R$ 49</span>
+              <span className="text-6xl font-black text-gray-900">R$ 127</span>
               <span className="text-gray-400 mb-3 text-lg">/mês</span>
             </div>
-            <p className="text-sm text-gray-400 mb-8">7 dias grátis. Sem cartão agora.</p>
+            <p className="text-sm text-gray-400 mb-8">3 dias grátis. Sem cartão agora.</p>
 
             <div className="flex flex-col gap-3 mb-8 text-left">
               {[
@@ -287,7 +287,7 @@ export default function Home() {
               Começar grátis agora
               <ArrowRight size={18} />
             </Link>
-            <p className="text-xs text-gray-400 mt-3">Sem cartão. 7 dias grátis.</p>
+            <p className="text-xs text-gray-400 mt-3">Sem cartão. 3 dias grátis.</p>
           </div>
         </div>
       </section>

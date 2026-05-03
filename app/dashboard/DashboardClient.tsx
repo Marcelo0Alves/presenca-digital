@@ -54,7 +54,7 @@ export default function DashboardClient({ data, sucesso }: { data: BusinessData;
             <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
               data.pago ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"
             }`}>
-              {data.pago ? "Ativo" : "Trial — 7 dias"}
+              {data.pago ? "Ativo" : "Trial — 3 dias"}
             </span>
           </div>
           <p className="text-gray-500 text-sm mb-4">{data.tagline}</p>
@@ -129,7 +129,7 @@ export default function DashboardClient({ data, sucesso }: { data: BusinessData;
               <h3 className="font-semibold">Mantenha sua presença ativa</h3>
             </div>
             <p className="text-indigo-200 text-sm mb-4">
-              Seu link expira em 7 dias. Assine por R$ 49/mês para manter ativo, ativar o pixel do Meta e conectar seu domínio próprio.
+              Seu link expira em 3 dias. Assine por R$ 127/mês para manter ativo, ativar o pixel do Meta e conectar seu domínio próprio.
             </p>
             <a
               href={`/api/stripe/checkout`}
