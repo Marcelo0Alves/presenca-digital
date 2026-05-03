@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowRight, ArrowLeft, Upload, Loader2 } from "lucide-react"
 import type { ContactType, ActionType } from "@/types"
@@ -25,6 +25,16 @@ export default function CriarPage() {
   const [step, setStep] = useState<Step>(1)
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState("")
+  const [arrastando, setArrastando] = useState(false)
+
+  const onDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setArrastando(false)
+    const file = e.dataTransfer.files?.[0]
+    if (file && file.type.startsWith("image/")) {
+      setForm((f) => ({ ...f, foto: file, temFoto: true }))
+    }
+  }, [])
 
   const [form, setForm] = useState<FormData>({
     nomeLoja: "",
@@ -65,6 +75,10 @@ export default function CriarPage() {
     }
     if (step === 3 && !form.acao) {
       setErro("Escolha o que o cliente deve fazer na sua página.")
+      return
+    }
+    if (step === 4 && form.temFoto && !form.foto) {
+      setErro("Envie uma imagem ou escolha usar foto genérica.")
       return
     }
     setErro("")
@@ -281,15 +295,31 @@ export default function CriarPage() {
                     className="hidden"
                     onChange={(e) => setForm({ ...form, foto: e.target.files?.[0] ?? null })}
                   />
-                  <button
+                  <div
                     onClick={() => fileRef.current?.click()}
-                    className="w-full border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center gap-3 hover:border-indigo-400 transition-colors"
+                    onDragOver={(e) => { e.preventDefault(); setArrastando(true) }}
+                    onDragLeave={() => setArrastando(false)}
+                    onDrop={onDrop}
+                    className={`w-full border-2 border-dashed rounded-xl p-8 flex flex-col items-center gap-3 cursor-pointer transition-colors ${
+                      arrastando
+                        ? "border-indigo-500 bg-indigo-50"
+                        : form.foto
+                        ? "border-green-400 bg-green-50"
+                        : "border-gray-300 hover:border-indigo-400"
+                    }`}
                   >
-                    <Upload size={24} className="text-gray-400" />
-                    <span className="text-gray-500">
-                      {form.foto ? form.foto.name : "Clique para selecionar a imagem"}
+                    <Upload size={24} className={form.foto ? "text-green-500" : "text-gray-400"} />
+                    <span className={`text-sm text-center ${form.foto ? "text-green-700 font-medium" : "text-gray-500"}`}>
+                      {form.foto
+                        ? `✓ ${form.foto.name}`
+                        : arrastando
+                        ? "Solte a imagem aqui"
+                        : "Arraste a imagem ou clique para selecionar"}
                     </span>
-                  </button>
+                    {!form.foto && (
+                      <span className="text-xs text-gray-400">PNG, JPG ou WEBP</span>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
