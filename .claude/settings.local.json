@@ -3,7 +3,8 @@
     "allow": [
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(grep -n \"instagram\\\\.com/\\\\${data\\\\.instagram}\" \"C:\\\\Users\\\\marcelop\\\\Documents\\\\Arquivos\\\\presenca-digital\\\\.claude\\\\worktrees\\\\eager-feynman-7e553d\\\\components\\\\BusinessPage.tsx\")"
     ]
   }
 }

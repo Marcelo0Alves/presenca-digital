@@ -21,14 +21,25 @@ export default function PreviewClient({ data, expirado }: { data: BusinessData; 
     setTimeout(() => setCopiado(""), 2000)
   }
 
+  const [erroPagamento, setErroPagamento] = useState("")
+
   async function assinar() {
-    const res = await fetch("/api/stripe/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug: data.slug }),
-    })
-    const { url } = await res.json()
-    window.location.href = url
+    setErroPagamento("")
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: data.slug }),
+      })
+      const json = await res.json()
+      if (!res.ok || !json.url) {
+        setErroPagamento("Erro ao iniciar pagamento. Tente novamente ou fale com o suporte.")
+        return
+      }
+      window.location.href = json.url
+    } catch {
+      setErroPagamento("Erro de conexão. Verifique sua internet e tente novamente.")
+    }
   }
 
   async function salvarPixel() {
@@ -63,6 +74,14 @@ export default function PreviewClient({ data, expirado }: { data: BusinessData; 
           <button onClick={assinar} className="ml-auto text-sm font-semibold underline">
             Assinar agora
           </button>
+        </div>
+      )}
+
+      {/* Erro pagamento */}
+      {erroPagamento && (
+        <div className="bg-red-50 border-b border-red-200 px-6 py-3 flex items-center gap-2 text-red-700">
+          <span className="text-sm">{erroPagamento}</span>
+          <button onClick={() => setErroPagamento("")} className="ml-auto text-red-400 hover:text-red-600">✕</button>
         </div>
       )}
 

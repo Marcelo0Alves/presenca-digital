@@ -7,15 +7,15 @@ function ctaHref(data: BusinessData): string {
   if (data.acao === "whatsapp" && data.whatsapp) return `https://wa.me/55${data.whatsapp.replace(/\D/g, "")}`
   if (data.acao === "agendamento") {
     if (data.whatsapp) return `https://wa.me/55${data.whatsapp.replace(/\D/g, "")}?text=Olá! Gostaria de agendar um horário.`
-    if (data.instagram) return `https://instagram.com/${data.instagram}`
+    if (data.instagram) return `https://instagram.com/${instagramHandle(data.instagram)}`
     if (data.telefone) return `tel:${data.telefone}`
   }
   if (data.acao === "compra") {
     if (data.linkLoja) return data.linkLoja.startsWith("http") ? data.linkLoja : `https://${data.linkLoja}`
     if (data.whatsapp) return `https://wa.me/55${data.whatsapp.replace(/\D/g, "")}?text=Olá! Gostaria de fazer um pedido.`
-    if (data.instagram) return `https://instagram.com/${data.instagram}`
+    if (data.instagram) return `https://instagram.com/${instagramHandle(data.instagram)}`
   }
-  if (data.contato === "instagram" && data.instagram) return `https://instagram.com/${data.instagram}`
+  if (data.contato === "instagram" && data.instagram) return `https://instagram.com/${instagramHandle(data.instagram)}`
   if (data.contato === "telefone" && data.telefone) return `tel:${data.telefone}`
   return "#"
 }
@@ -24,18 +24,26 @@ function isExternal(href: string): boolean {
   return href.startsWith("http://") || href.startsWith("https://")
 }
 
-function ctaLabel(acao: string): string {
-  if (acao === "whatsapp") return "Falar no WhatsApp"
-  if (acao === "agendamento") return "Agendar agora"
-  if (acao === "compra") return "Comprar agora"
+function ctaLabel(data: BusinessData): string {
+  if (data.acao === "agendamento") return "Agendar agora"
+  if (data.acao === "compra") return "Comprar agora"
+  if (data.whatsapp) return "Falar no WhatsApp"
+  if (data.instagram) return "Ver no Instagram"
+  if (data.telefone) return "Ligar agora"
   return "Entrar em contato"
 }
 
-function ctaShortLabel(acao: string): string {
-  if (acao === "whatsapp") return "Falar agora"
-  if (acao === "agendamento") return "Agendar"
-  if (acao === "compra") return "Comprar"
+function ctaShortLabel(data: BusinessData): string {
+  if (data.acao === "agendamento") return "Agendar"
+  if (data.acao === "compra") return "Comprar"
+  if (data.whatsapp) return "Falar agora"
+  if (data.instagram) return "Instagram"
+  if (data.telefone) return "Ligar"
   return "Contato"
+}
+
+function instagramHandle(handle?: string): string {
+  return (handle || "").replace(/^@+/, "")
 }
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
@@ -171,8 +179,8 @@ export default function BusinessPage({ data, preview = false }: { data: Business
   }
 
   const href = ctaHref(data)
-  const label = ctaLabel(data.acao)
-  const shortLabel = ctaShortLabel(data.acao)
+  const label = ctaLabel(data)
+  const shortLabel = ctaShortLabel(data)
   const inicial = data.nome.charAt(0).toUpperCase()
   const monograma = data.nome
     .split(" ")
@@ -230,7 +238,7 @@ export default function BusinessPage({ data, preview = false }: { data: Business
           <div className="flex items-center gap-4 uppercase tracking-[0.18em]">
             <span>{data.categoria}</span>
             {data.instagram && <span>·</span>}
-            {data.instagram && <span>@{data.instagram}</span>}
+            {data.instagram && <span>@{instagramHandle(data.instagram)}</span>}
           </div>
         </div>
       </div>
@@ -324,13 +332,13 @@ export default function BusinessPage({ data, preview = false }: { data: Business
               </a>
               {data.instagram && (
                 <a
-                  href={`https://instagram.com/${data.instagram}`}
+                  href={`https://instagram.com/${instagramHandle(data.instagram)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 font-medium px-6 py-4 rounded-full text-[14px] text-neutral-700 border border-neutral-300 bg-white/70 backdrop-blur-sm hover:border-neutral-900 hover:text-neutral-900 transition-all"
                 >
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.5" y2="6.5" /></svg>
-                  @{data.instagram}
+                  @{instagramHandle(data.instagram)}
                 </a>
               )}
             </div>
@@ -654,7 +662,7 @@ export default function BusinessPage({ data, preview = false }: { data: Business
                 </a>
                 {data.instagram && (
                   <a
-                    href={`https://instagram.com/${data.instagram}`}
+                    href={`https://instagram.com/${instagramHandle(data.instagram)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 font-medium px-8 py-5 rounded-full text-sm text-white/80 border border-white/15 hover:bg-white/5 hover:text-white transition-all"
@@ -704,9 +712,9 @@ export default function BusinessPage({ data, preview = false }: { data: Business
                   </a>
                 )}
                 {data.instagram && (
-                  <a href={`https://instagram.com/${data.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-neutral-700 hover:text-neutral-900 inline-flex items-center gap-2">
+                  <a href={`https://instagram.com/${instagramHandle(data.instagram)}`} target="_blank" rel="noopener noreferrer" className="text-sm text-neutral-700 hover:text-neutral-900 inline-flex items-center gap-2">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-400"><rect x="2" y="2" width="20" height="20" rx="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /></svg>
-                    @{data.instagram}
+                    @{instagramHandle(data.instagram)}
                   </a>
                 )}
                 {data.telefone && (
