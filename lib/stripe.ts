@@ -4,7 +4,7 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-04-22.dahlia",
 })
 
-export const PRICE_ID = "price_1TSm1wFupgT75bEh1nLGGByS"
+export const PRICE_ID = "price_1TSnXjFnaQnF14uz4mAneVKp"
 
 export async function criarCheckout(slug: string, email?: string) {
   const session = await stripe.checkout.sessions.create({
