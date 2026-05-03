@@ -19,6 +19,10 @@ export async function POST(req: NextRequest) {
     const linkLoja = (formData.get("linkLoja") as string) || ""
     const temFoto = formData.get("temFoto") === "true"
     const foto = formData.get("foto") as File | null
+    const servicosRaw = (formData.get("servicos") as string) || "[]"
+    const servicosOferecidos: { nome: string; descricao: string }[] = (() => {
+      try { return JSON.parse(servicosRaw).filter((s: { nome: string }) => s.nome?.trim()) } catch { return [] }
+    })()
 
     if (!descricao || !contato || !acao) {
       return NextResponse.json({ erro: "Dados incompletos" }, { status: 400 })
@@ -68,6 +72,7 @@ export async function POST(req: NextRequest) {
       temFoto,
       fotoUrl,
       ...conteudo,
+      servicosOferecidos: servicosOferecidos.length > 0 ? servicosOferecidos : undefined,
       criadoEm: agora.toISOString(),
       expiraEm: expira.toISOString(),
       pago: false,
