@@ -152,7 +152,7 @@ export default function CriarPage() {
               {form.contato === "whatsapp" && (
                 <input
                   type="tel"
-                  className="border border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="border border-gray-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 placeholder-gray-500 bg-white"
                   placeholder="Seu número com DDD (ex: 11999999999)"
                   value={form.whatsapp}
                   onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
@@ -161,7 +161,7 @@ export default function CriarPage() {
               {form.contato === "instagram" && (
                 <input
                   type="text"
-                  className="border border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="border border-gray-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 placeholder-gray-500 bg-white"
                   placeholder="Seu @ do Instagram (sem o @)"
                   value={form.instagram}
                   onChange={(e) => setForm({ ...form, instagram: e.target.value })}
@@ -170,7 +170,7 @@ export default function CriarPage() {
               {form.contato === "telefone" && (
                 <input
                   type="tel"
-                  className="border border-gray-200 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="border border-gray-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 placeholder-gray-500 bg-white"
                   placeholder="Seu telefone com DDD"
                   value={form.telefone}
                   onChange={(e) => setForm({ ...form, telefone: e.target.value })}
