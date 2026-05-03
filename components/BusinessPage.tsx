@@ -1,12 +1,18 @@
-import Image from "next/image"
 import type { BusinessData } from "@/types"
 
 function ctaHref(data: BusinessData): string {
   if (data.acao === "whatsapp" && data.whatsapp) {
     return `https://wa.me/55${data.whatsapp.replace(/\D/g, "")}`
   }
-  if (data.acao === "agendamento") return "#agendar"
-  if (data.acao === "compra") return "#comprar"
+  if (data.acao === "agendamento") {
+    if (data.whatsapp) return `https://wa.me/55${data.whatsapp.replace(/\D/g, "")}?text=Olá! Gostaria de agendar um horário.`
+    if (data.instagram) return `https://instagram.com/${data.instagram}`
+    if (data.telefone) return `tel:${data.telefone}`
+  }
+  if (data.acao === "compra") {
+    if (data.whatsapp) return `https://wa.me/55${data.whatsapp.replace(/\D/g, "")}?text=Olá! Gostaria de fazer um pedido.`
+    if (data.instagram) return `https://instagram.com/${data.instagram}`
+  }
   if (data.contato === "instagram" && data.instagram) {
     return `https://instagram.com/${data.instagram}`
   }
@@ -94,8 +100,8 @@ export default function BusinessPage({ data, preview = false }: { data: Business
           {/* Avatar/Foto */}
           <div className="flex-shrink-0">
             {data.fotoUrl ? (
-              <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl overflow-hidden shadow-2xl">
-                <Image src={data.fotoUrl} alt={data.nome} fill className="object-cover" />
+              <div className="w-48 h-48 md:w-64 md:h-64 rounded-3xl overflow-hidden shadow-2xl">
+                <img src={data.fotoUrl} alt={data.nome} className="w-full h-full object-cover" />
               </div>
             ) : (
               <div
