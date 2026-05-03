@@ -1,5 +1,6 @@
 export type ContactType = "whatsapp" | "instagram" | "telefone" | "sem_contato"
 export type ActionType = "whatsapp" | "agendamento" | "compra"
+export type LayoutType = "editorial" | "moderno" | "simples"
 
 export interface BusinessData {
   slug: string
@@ -7,6 +8,7 @@ export interface BusinessData {
   descricao: string
   contato: ContactType
   acao: ActionType
+  layout?: LayoutType
   whatsapp?: string
   telefone?: string
   instagram?: string
@@ -30,6 +32,7 @@ export interface BusinessData {
   processo?: { titulo: string; descricao: string }[]
   faq?: { pergunta: string; resposta: string }[]
   prova?: string
+  servicosOferecidos?: { nome: string; descricao: string }[]
 
   // controle
   criadoEm: string

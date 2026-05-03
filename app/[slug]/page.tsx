@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import { buscarPagina } from "@/lib/blob"
-import BusinessPage from "@/components/BusinessPage"
+import BusinessPageSelector from "@/components/BusinessPageSelector"
 import type { Metadata } from "next"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -27,5 +27,5 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   const expirado = new Date(data.expiraEm) < new Date() && !data.pago
   if (expirado) notFound()
 
-  return <BusinessPage data={data} />
+  return <BusinessPageSelector data={data} />
 }

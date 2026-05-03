@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { put } from "@vercel/blob"
 import { gerarConteudo } from "@/lib/openai"
 import { salvarPagina, gerarSlug } from "@/lib/blob"
-import type { BusinessData, ContactType, ActionType } from "@/types"
+import type { BusinessData, ContactType, ActionType, LayoutType } from "@/types"
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
     const descricao = formData.get("descricao") as string
     const contato = formData.get("contato") as ContactType
     const acao = formData.get("acao") as ActionType
+    const layout = ((formData.get("layout") as string) || "editorial") as LayoutType
     const whatsapp = (formData.get("whatsapp") as string) || ""
     const telefone = (formData.get("telefone") as string) || ""
     const instagram = (formData.get("instagram") as string) || ""
@@ -59,6 +60,7 @@ export async function POST(req: NextRequest) {
       descricao,
       contato,
       acao,
+      layout,
       whatsapp,
       telefone,
       instagram,
