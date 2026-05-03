@@ -8,7 +8,7 @@ import BusinessPage from "@/components/BusinessPage"
 type Tab = "pagina" | "copy" | "bio" | "pixel"
 
 export default function PreviewClient({ data, expirado }: { data: BusinessData; expirado: boolean }) {
-  const [tab, setTab] = useState<Tab>("pagina")
+  const [tab, setTab] = useState<Tab>("copy")
   const [copiado, setCopiado] = useState("")
   const [pixelId, setPixelId] = useState(data.pixelId || "")
 
