@@ -26,6 +26,10 @@ export interface BusinessData {
   textoBio: string
   categoria: string
   corPrimaria: string
+  destaques?: { titulo: string; descricao: string }[]
+  processo?: { titulo: string; descricao: string }[]
+  faq?: { pergunta: string; resposta: string }[]
+  prova?: string
 
   // controle
   criadoEm: string
