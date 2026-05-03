@@ -45,6 +45,82 @@ export default function Home() {
         </p>
       </section>
 
+      {/* Proposta — Sem agência, você mesmo faz */}
+      <section className="px-8 py-24 border-b border-gray-100">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 mb-4">Para quem é isso</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-6">
+                Seu negócio digital<br />
+                <span className="text-indigo-600">sem agência.</span><br />
+                Você mesmo faz.
+              </h2>
+              <p className="text-gray-500 text-lg leading-relaxed mb-8">
+                Agência cobra R$ 3.000 pra criar uma página, R$ 1.500/mês pra fazer anúncios, e você ainda fica dependente deles pra qualquer mudança.
+                <br /><br />
+                Com o Presença Digital você descreve o que faz em uma frase, e em 5 minutos tem tudo pronto — página, anúncios e integração com WhatsApp. <strong className="text-gray-700">Sem precisar entender de tecnologia.</strong>
+              </p>
+              <Link href="/criar"
+                className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-indigo-700 transition-all">
+                Quero criar o meu <ArrowRight size={18} />
+              </Link>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {[
+                {
+                  antes: "Agência",
+                  depois: "Você mesmo",
+                  desc: "Criar sua página profissional",
+                  precoAntes: "R$ 3.000",
+                  precoDepois: "R$ 49/mês",
+                },
+                {
+                  antes: "Redator",
+                  depois: "Automático",
+                  desc: "Textos de anúncio para o Meta Ads",
+                  precoAntes: "R$ 800/mês",
+                  precoDepois: "Incluso",
+                },
+                {
+                  antes: "Dev / agência",
+                  depois: "Automático",
+                  desc: "Pixel do Meta configurado",
+                  precoAntes: "R$ 500",
+                  precoDepois: "Incluso",
+                },
+                {
+                  antes: "Designer",
+                  depois: "Automático",
+                  desc: "Bio do Instagram otimizada",
+                  precoAntes: "R$ 300",
+                  precoDepois: "Incluso",
+                },
+              ].map((item) => (
+                <div key={item.desc} className="bg-gray-50 rounded-2xl p-5 flex items-center justify-between gap-4 border border-gray-100">
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-gray-900 mb-0.5">{item.desc}</p>
+                    <p className="text-xs text-gray-400">Antes: {item.antes} · <span className="line-through">{item.precoAntes}</span></p>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <span className="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">{item.precoDepois}</span>
+                  </div>
+                </div>
+              ))}
+
+              <div className="bg-indigo-600 rounded-2xl p-5 flex items-center justify-between">
+                <div>
+                  <p className="text-white font-bold">Total que você economiza</p>
+                  <p className="text-indigo-200 text-sm">Comparado com agência tradicional</p>
+                </div>
+                <span className="text-white font-black text-2xl">+ R$ 4.600</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Como funciona */}
       <section className="px-8 py-24 bg-gray-50">
         <div className="max-w-5xl mx-auto">
