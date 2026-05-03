@@ -90,7 +90,7 @@ function AgendamentoModal({ data, cor, onClose }: { data: BusinessData; cor: str
 
   function confirmar() {
     if (!nome.trim() || !telefone.trim()) return
-    const texto = `Olá, ${data.nome}! Gostaria de agendar um horário.\n\nNome: ${nome}\nTelefone: ${telefone}${horario ? `\nHorário preferido: ${horario}` : ""}${mensagem ? `\nObservação: ${mensagem}` : ""}`
+    const texto = `Olá! Gostaria de agendar um horário.\n\nNome: ${nome}\nTelefone: ${telefone}${horario ? `\nHorário preferido: ${horario}` : ""}${mensagem ? `\nObservação: ${mensagem}` : ""}`
     const num = data.whatsapp?.replace(/\D/g, "") || data.telefone?.replace(/\D/g, "")
     if (num) window.open(`https://wa.me/55${num}?text=${encodeURIComponent(texto)}`, "_blank")
     onClose()
