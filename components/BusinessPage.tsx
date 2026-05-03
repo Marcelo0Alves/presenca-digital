@@ -19,6 +19,10 @@ function ctaHref(data: BusinessData): string {
   return "#"
 }
 
+function isExternal(href: string): boolean {
+  return href.startsWith("http://") || href.startsWith("https://")
+}
+
 function ctaLabel(acao: string): string {
   if (acao === "whatsapp") return "Falar no WhatsApp"
   if (acao === "agendamento") return "Agendar agora"
@@ -166,7 +170,7 @@ export default function BusinessPage({ data, preview = false }: { data: Business
           )}
           <span className="font-bold text-gray-900">{data.nome}</span>
         </div>
-        <a href={href} onClick={handleCTA} target={!isAgendamento ? "_blank" : undefined} rel="noopener noreferrer"
+        <a href={href} onClick={handleCTA} target={!isAgendamento && isExternal(href) ? "_blank" : undefined} rel="noopener noreferrer"
           className="font-bold px-6 py-2.5 rounded-full text-sm text-white transition-all hover:opacity-90 hover:shadow-lg"
           style={{ backgroundColor: cor }}>
           {label}
@@ -196,7 +200,7 @@ export default function BusinessPage({ data, preview = false }: { data: Business
               {data.descricaoLonga}
             </p>
             <div className="flex flex-wrap gap-3">
-              <a href={href} onClick={handleCTA} target={!isAgendamento ? "_blank" : undefined} rel="noopener noreferrer"
+              <a href={href} onClick={handleCTA} target={!isAgendamento && isExternal(href) ? "_blank" : undefined} rel="noopener noreferrer"
                 className="relative inline-flex items-center gap-2.5 font-bold px-8 py-4 rounded-2xl text-white text-lg transition-all hover:scale-105"
                 style={{ backgroundColor: cor, boxShadow: `0 12px 40px ${cor}50` }}>
                 {label}
@@ -264,7 +268,7 @@ export default function BusinessPage({ data, preview = false }: { data: Business
             <span className="text-xs font-bold uppercase tracking-[0.2em] block mb-4" style={{ color: cor }}>Sobre nós</span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-6">{data.nome}</h2>
             <p className="text-gray-500 text-lg leading-relaxed mb-8">{data.descricaoLonga}</p>
-            <a href={href} onClick={handleCTA} target={!isAgendamento ? "_blank" : undefined} rel="noopener noreferrer"
+            <a href={href} onClick={handleCTA} target={!isAgendamento && isExternal(href) ? "_blank" : undefined} rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-bold text-sm px-6 py-3 rounded-full border-2 transition-all hover:text-white"
               style={{ borderColor: cor, color: cor }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = cor }}
@@ -329,7 +333,7 @@ export default function BusinessPage({ data, preview = false }: { data: Business
               <p className="text-white/70 text-xl mb-12 max-w-lg mx-auto">
                 Entre em contato agora e dê o próximo passo.
               </p>
-              <a href={href} onClick={handleCTA} target={!isAgendamento ? "_blank" : undefined} rel="noopener noreferrer"
+              <a href={href} onClick={handleCTA} target={!isAgendamento && isExternal(href) ? "_blank" : undefined} rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-white font-extrabold px-10 py-5 rounded-2xl text-xl shadow-2xl transition-all hover:scale-105 hover:shadow-3xl"
                 style={{ color: cor }}>
                 {label}
