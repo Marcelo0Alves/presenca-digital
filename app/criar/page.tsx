@@ -45,6 +45,18 @@ export default function CriarPage() {
       setErro("Escolha como as pessoas entram em contato.")
       return
     }
+    if (step === 2 && form.contato === "whatsapp" && !form.whatsapp.trim()) {
+      setErro("Digite seu número do WhatsApp para continuar.")
+      return
+    }
+    if (step === 2 && form.contato === "instagram" && !form.instagram.trim()) {
+      setErro("Digite seu @ do Instagram para continuar.")
+      return
+    }
+    if (step === 2 && form.contato === "telefone" && !form.telefone.trim()) {
+      setErro("Digite seu telefone para continuar.")
+      return
+    }
     if (step === 3 && !form.acao) {
       setErro("Escolha o que o cliente deve fazer na sua página.")
       return
