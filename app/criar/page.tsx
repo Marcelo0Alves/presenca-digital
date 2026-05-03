@@ -15,6 +15,7 @@ interface FormData {
   whatsapp: string
   telefone: string
   instagram: string
+  linkLoja: string
   temFoto: boolean
   foto: File | null
 }
@@ -67,6 +68,7 @@ export default function CriarPage() {
     whatsapp: "",
     telefone: "",
     instagram: "",
+    linkLoja: "",
     temFoto: false,
     foto: null,
   })
@@ -126,6 +128,7 @@ export default function CriarPage() {
       body.append("whatsapp", form.whatsapp)
       body.append("telefone", form.telefone)
       body.append("instagram", form.instagram)
+      body.append("linkLoja", form.linkLoja)
       body.append("temFoto", String(form.temFoto))
       if (form.foto) body.append("foto", form.foto)
 
@@ -325,6 +328,20 @@ export default function CriarPage() {
                   </button>
                 ))}
               </div>
+
+              {form.acao === "compra" && (
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-gray-700">Link da sua loja ou produto <span className="text-gray-400 font-normal">(opcional)</span></label>
+                  <input
+                    type="url"
+                    className="border border-gray-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 placeholder-gray-500 bg-white"
+                    placeholder="Ex: shopee.com.br/loja, mercadolivre.com/..."
+                    value={form.linkLoja}
+                    onChange={(e) => setForm({ ...form, linkLoja: e.target.value })}
+                  />
+                  <span className="text-xs text-gray-400">Se não tiver, o botão vai direto para o WhatsApp.</span>
+                </div>
+              )}
             </div>
           )}
 

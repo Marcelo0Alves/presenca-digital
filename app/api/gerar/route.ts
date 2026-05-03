@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
     const whatsapp = (formData.get("whatsapp") as string) || ""
     const telefone = (formData.get("telefone") as string) || ""
     const instagram = (formData.get("instagram") as string) || ""
+    const linkLoja = (formData.get("linkLoja") as string) || ""
     const temFoto = formData.get("temFoto") === "true"
     const foto = formData.get("foto") as File | null
 
@@ -61,6 +62,7 @@ export async function POST(req: NextRequest) {
       whatsapp,
       telefone,
       instagram,
+      linkLoja,
       temFoto,
       fotoUrl,
       ...conteudo,

@@ -12,6 +12,7 @@ export interface BusinessData {
   instagram?: string
   temFoto: boolean
   fotoUrl?: string
+  linkLoja?: string
 
   // gerado pela IA
   nome: string

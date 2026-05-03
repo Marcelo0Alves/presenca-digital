@@ -11,6 +11,7 @@ function ctaHref(data: BusinessData): string {
     if (data.telefone) return `tel:${data.telefone}`
   }
   if (data.acao === "compra") {
+    if (data.linkLoja) return data.linkLoja.startsWith("http") ? data.linkLoja : `https://${data.linkLoja}`
     if (data.whatsapp) return `https://wa.me/55${data.whatsapp.replace(/\D/g, "")}?text=Olá! Gostaria de fazer um pedido.`
     if (data.instagram) return `https://instagram.com/${data.instagram}`
   }
