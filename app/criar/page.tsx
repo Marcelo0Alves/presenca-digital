@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowRight, ArrowLeft, Upload, Loader2 } from "lucide-react"
+import { ArrowRight, ArrowLeft, Upload } from "lucide-react"
 import type { ContactType, ActionType } from "@/types"
 
 type Step = 1 | 2 | 3 | 4
@@ -24,8 +24,31 @@ export default function CriarPage() {
   const fileRef = useRef<HTMLInputElement>(null)
   const [step, setStep] = useState<Step>(1)
   const [loading, setLoading] = useState(false)
+  const [pct, setPct] = useState(0)
   const [erro, setErro] = useState("")
   const [arrastando, setArrastando] = useState(false)
+
+  const etapas = [
+    { min: 0,  max: 15, label: "Analisando seu negócio..." },
+    { min: 15, max: 40, label: "Criando sua página..." },
+    { min: 40, max: 65, label: "Gerando os anúncios..." },
+    { min: 65, max: 82, label: "Escrevendo a bio..." },
+    { min: 82, max: 95, label: "Finalizando os detalhes..." },
+    { min: 95, max: 99, label: "Quase pronto..." },
+  ]
+
+  useEffect(() => {
+    if (!loading) return
+    setPct(0)
+    const interval = setInterval(() => {
+      setPct((prev) => {
+        if (prev >= 99) { clearInterval(interval); return 99 }
+        const increment = prev < 40 ? 2.5 : prev < 75 ? 1.2 : 0.4
+        return Math.min(prev + increment, 99)
+      })
+    }, 300)
+    return () => clearInterval(interval)
+  }, [loading])
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -93,6 +116,7 @@ export default function CriarPage() {
   async function gerar() {
     setLoading(true)
     setErro("")
+    setPct(0)
     try {
       const body = new FormData()
       body.append("descricao", form.descricao)
@@ -118,6 +142,54 @@ export default function CriarPage() {
   }
 
   const progresso = (step / 4) * 100
+
+  const etapaAtual = etapas.find((e) => pct >= e.min && pct < e.max) || etapas[etapas.length - 1]
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-600 to-purple-700 flex flex-col items-center justify-center px-6">
+        <div className="w-full max-w-sm text-center">
+          <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-8 backdrop-blur-sm">
+            <svg className="animate-spin" width="36" height="36" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="white" strokeOpacity="0.3" strokeWidth="3" />
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="white" strokeWidth="3" strokeLinecap="round" />
+            </svg>
+          </div>
+
+          <p className="text-white/60 text-sm font-medium uppercase tracking-widest mb-3">Criando sua presença</p>
+          <h2 className="text-white text-2xl font-bold mb-10">{etapaAtual.label}</h2>
+
+          {/* Barra de progresso */}
+          <div className="bg-white/20 rounded-full h-3 mb-3 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-white transition-all duration-300"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-white/50 text-xs">Processando...</span>
+            <span className="text-white font-bold text-lg">{Math.round(pct)}%</span>
+          </div>
+
+          <div className="mt-10 flex flex-col gap-2">
+            {etapas.slice(0, -1).map((e) => (
+              <div key={e.label} className="flex items-center gap-3 text-left">
+                <div className={`w-4 h-4 rounded-full flex-shrink-0 flex items-center justify-center transition-all ${pct >= e.max ? "bg-white" : pct >= e.min ? "bg-white/40 ring-2 ring-white" : "bg-white/10"}`}>
+                  {pct >= e.max && (
+                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                      <path d="M1 4l2 2 4-4" stroke="#6366f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </div>
+                <span className={`text-sm transition-all ${pct >= e.min ? "text-white" : "text-white/30"}`}>{e.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white flex flex-col">
@@ -358,17 +430,8 @@ export default function CriarPage() {
                 disabled={loading}
                 className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-70"
               >
-                {loading ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Gerando sua presença...
-                  </>
-                ) : (
-                  <>
-                    Criar minha presença
-                    <ArrowRight size={18} />
-                  </>
-                )}
+                Criar minha presença
+                <ArrowRight size={18} />
               </button>
             )}
           </div>
