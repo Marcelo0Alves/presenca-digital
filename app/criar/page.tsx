@@ -326,7 +326,7 @@ export default function CriarPage() {
           {step === 1 && (
             <div className="flex flex-col gap-6">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Conta sobre seu negócio</h1>
+                <h1 className="text-3xl font-bold text-gray-900">Conte mais sobre seu negócio</h1>
                 <p className="text-gray-500 mt-2">Quanto mais detalhes, melhor o resultado.</p>
               </div>
               <div className="flex flex-col gap-2">
@@ -447,13 +447,16 @@ export default function CriarPage() {
                 />
               )}
               {form.contato === "instagram" && (
-                <input
-                  type="text"
-                  className="border border-gray-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 placeholder-gray-500 bg-white"
-                  placeholder="Seu @ do Instagram (sem o @)"
-                  value={form.instagram}
-                  onChange={(e) => setForm({ ...form, instagram: e.target.value })}
-                />
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">@</span>
+                  <input
+                    type="text"
+                    className="border border-gray-300 rounded-xl p-4 pl-8 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 placeholder-gray-500 bg-white w-full"
+                    placeholder="seuperfil"
+                    value={form.instagram}
+                    onChange={(e) => setForm({ ...form, instagram: e.target.value.replace(/^@+/, "") })}
+                  />
+                </div>
               )}
               {form.contato === "telefone" && (
                 <input
@@ -476,7 +479,15 @@ export default function CriarPage() {
               </div>
               <div className="flex flex-col gap-3">
                 {[
-                  { value: "whatsapp", label: "Me chamar no WhatsApp", desc: "Botão direto para conversa no WhatsApp" },
+                  {
+                    value: "whatsapp",
+                    label: form.contato === "instagram" ? "Me contatar no Instagram"
+                         : form.contato === "telefone"  ? "Me ligar"
+                         : "Me chamar no WhatsApp",
+                    desc: form.contato === "instagram" ? "Botão direto para o seu perfil no Instagram"
+                        : form.contato === "telefone"  ? "Botão para ligar diretamente"
+                        : "Botão direto para conversa no WhatsApp",
+                  },
                   { value: "agendamento", label: "Agendar um horário", desc: "Formulário de agendamento integrado" },
                 ].map((op) => (
                   <button
