@@ -143,35 +143,26 @@ export default function PreviewClient({ data, expirado }: { data: BusinessData; 
                 <p className="text-sm text-indigo-700 font-medium">3 anúncios prontos para o Meta Ads</p>
                 <p className="text-xs text-indigo-500 mt-0.5">Copie e cole direto no Gerenciador de Anúncios do Facebook/Instagram.</p>
               </div>
-              {(["versao1", "versao2", "versao3"] as const).map((v, i) => {
-                const angulos = ["Ângulo: Dor", "Ângulo: Prova Social", "Ângulo: Oferta"]
-                const cores = ["text-rose-600 bg-rose-50 border-rose-100", "text-emerald-600 bg-emerald-50 border-emerald-100", "text-amber-600 bg-amber-50 border-amber-100"]
-                return (
-                  <div key={v} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                    <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Versão {i + 1}</span>
-                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${cores[i]}`}>
-                          {angulos[i]}
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => copiar(`${data.copyAnuncio[v].titulo}\n\n${data.copyAnuncio[v].texto}`, v)}
-                        className="flex items-center gap-1 text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors"
-                      >
-                        {copiado === v ? <Check size={13} className="text-green-500" /> : <Copy size={13} />}
-                        {copiado === v ? "Copiado!" : "Copiar tudo"}
-                      </button>
-                    </div>
-                    <div className="p-4">
-                      <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Título</p>
-                      <p className="font-bold text-gray-900 text-base mb-3">{data.copyAnuncio[v].titulo}</p>
-                      <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Texto do anúncio</p>
-                      <p className="text-gray-700 text-sm leading-relaxed">{data.copyAnuncio[v].texto}</p>
-                    </div>
+              {(["versao1", "versao2", "versao3"] as const).map((v, i) => (
+                <div key={v} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
+                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Versão {i + 1}</span>
+                    <button
+                      onClick={() => copiar(`${data.copyAnuncio[v].titulo}\n\n${data.copyAnuncio[v].texto}`, v)}
+                      className="flex items-center gap-1 text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors"
+                    >
+                      {copiado === v ? <Check size={13} className="text-green-500" /> : <Copy size={13} />}
+                      {copiado === v ? "Copiado!" : "Copiar tudo"}
+                    </button>
                   </div>
-                )
-              })}
+                  <div className="p-4">
+                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Título</p>
+                    <p className="font-bold text-gray-900 text-base mb-3">{data.copyAnuncio[v].titulo}</p>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Texto do anúncio</p>
+                    <p className="text-gray-700 text-sm leading-relaxed">{data.copyAnuncio[v].texto}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
