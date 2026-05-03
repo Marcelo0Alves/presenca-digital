@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Copy, Check, ExternalLink, AlertTriangle, Crown } from "lucide-react"
 import type { BusinessData } from "@/types"
-import BusinessPage from "@/components/BusinessPage"
+import BusinessPageSelector from "@/components/BusinessPageSelector"
 
 type Tab = "pagina" | "copy" | "bio" | "pixel"
 
@@ -115,7 +115,7 @@ export default function PreviewClient({ data, expirado }: { data: BusinessData; 
               <span className="text-xs text-gray-400 flex-1 text-center truncate">{link}</span>
             </div>
             <div className="overflow-y-auto max-h-[500px]">
-              <BusinessPage data={data} preview />
+              <BusinessPageSelector data={data} preview />
             </div>
           </div>
         </div>

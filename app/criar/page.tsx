@@ -3,15 +3,16 @@
 import { useState, useRef, useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowRight, ArrowLeft, Upload } from "lucide-react"
-import type { ContactType, ActionType } from "@/types"
+import type { ContactType, ActionType, LayoutType } from "@/types"
 
-type Step = 1 | 2 | 3 | 4
+type Step = 1 | 2 | 3 | 4 | 5
 
 interface FormData {
   nomeLoja: string
   descricao: string
   contato: ContactType | ""
   acao: ActionType | ""
+  layout: LayoutType
   whatsapp: string
   telefone: string
   instagram: string
@@ -19,6 +20,110 @@ interface FormData {
   temFoto: boolean
   foto: File | null
 }
+
+const layouts: { value: LayoutType; nome: string; descricao: string; preview: React.ReactNode }[] = [
+  {
+    value: "editorial",
+    nome: "Editorial",
+    descricao: "Sofisticado e premium. Layout revista com destaque para o seu brand.",
+    preview: (
+      <svg viewBox="0 0 160 110" className="w-full h-full" fill="none">
+        <rect width="160" height="110" rx="6" fill="#fafaf9" />
+        {/* nav */}
+        <rect x="10" y="8" width="20" height="4" rx="2" fill="#171717" />
+        <rect x="120" y="7" width="30" height="6" rx="3" fill="#4338ca" />
+        {/* hero 2 colunas */}
+        <rect x="10" y="22" width="55" height="3" rx="1.5" fill="#171717" />
+        <rect x="10" y="28" width="65" height="8" rx="2" fill="#171717" opacity="0.9" />
+        <rect x="10" y="39" width="55" height="2" rx="1" fill="#9ca3af" />
+        <rect x="10" y="43" width="45" height="2" rx="1" fill="#9ca3af" />
+        <rect x="10" y="50" width="32" height="7" rx="3.5" fill="#4338ca" />
+        {/* card hero direita */}
+        <rect x="90" y="18" width="60" height="46" rx="8" fill="#4338ca" opacity="0.85" />
+        <rect x="97" y="53" width="30" height="3" rx="1.5" fill="white" opacity="0.7" />
+        <rect x="97" y="58" width="20" height="2" rx="1" fill="white" opacity="0.4" />
+        {/* info bar */}
+        <rect x="0" y="70" width="160" height="12" fill="white" />
+        <rect x="10" y="73" width="25" height="2" rx="1" fill="#6b7280" />
+        <rect x="50" y="73" width="25" height="2" rx="1" fill="#6b7280" />
+        <rect x="90" y="73" width="25" height="2" rx="1" fill="#6b7280" />
+        <rect x="130" y="73" width="20" height="2" rx="1" fill="#6b7280" />
+        {/* destaques 3 col */}
+        <rect x="10" y="88" width="42" height="16" rx="4" fill="white" stroke="#e5e7eb" strokeWidth="0.5" />
+        <rect x="59" y="88" width="42" height="16" rx="4" fill="white" stroke="#e5e7eb" strokeWidth="0.5" />
+        <rect x="108" y="88" width="42" height="16" rx="4" fill="white" stroke="#e5e7eb" strokeWidth="0.5" />
+      </svg>
+    ),
+  },
+  {
+    value: "moderno",
+    nome: "Moderno",
+    descricao: "Corporativo e impactante. Split com foto, título em bloco colorido e elementos geométricos.",
+    preview: (
+      <svg viewBox="0 0 160 110" className="w-full h-full" fill="none">
+        <rect width="160" height="110" rx="6" fill="white" />
+        {/* nav */}
+        <rect x="8" y="7" width="18" height="4" rx="1" fill="#1f2937" />
+        <rect x="50" y="8" width="12" height="2.5" rx="1" fill="#9ca3af" />
+        <rect x="67" y="8" width="10" height="2.5" rx="1" fill="#9ca3af" />
+        <rect x="82" y="8" width="14" height="2.5" rx="1" fill="#9ca3af" />
+        <rect x="100" y="8" width="12" height="2.5" rx="1" fill="#9ca3af" />
+        <rect x="127" y="6" width="25" height="7" rx="0" fill="#2563eb" />
+        <line x1="0" y1="18" x2="160" y2="18" stroke="#e5e7eb" strokeWidth="0.8" />
+        {/* hero split */}
+        {/* coluna esquerda */}
+        <rect x="8" y="26" width="6" height="1.5" rx="0.75" fill="#2563eb" />
+        <rect x="8" y="33" width="62" height="10" rx="0" fill="#2563eb" />
+        <rect x="8" y="45" width="62" height="7" rx="0" fill="#dbeafe" />
+        <rect x="8" y="56" width="50" height="2" rx="1" fill="#9ca3af" />
+        <rect x="8" y="60" width="40" height="2" rx="1" fill="#9ca3af" />
+        <rect x="8" y="67" width="30" height="8" rx="0" fill="#2563eb" />
+        {/* decoração pontos */}
+        {[0,1,2,3].map(r => [0,1,2,3].map(c => (
+          <circle key={`${r}-${c}`} cx={78 + c * 5} cy={24 + r * 5} r={0.8} fill="#2563eb" fillOpacity={0.3} />
+        )))}
+        {/* coluna direita — foto */}
+        <rect x="82" y="18" width="78" height="70" fill="#dbeafe" />
+        <rect x="82" y="18" width="4" height="70" fill="#2563eb" opacity="0.3" />
+        {/* divisor colorido */}
+        <rect x="0" y="88" width="160" height="2" fill="#2563eb" />
+        {/* cards info */}
+        <rect x="8" y="93" width="42" height="13" rx="0" fill="white" stroke="#e5e7eb" strokeWidth="0.5" />
+        <rect x="59" y="93" width="42" height="13" rx="0" fill="white" stroke="#e5e7eb" strokeWidth="0.5" />
+        <rect x="110" y="93" width="42" height="13" rx="0" fill="white" stroke="#e5e7eb" strokeWidth="0.5" />
+        <rect x="11" y="96" width="8" height="7" rx="0" fill="#dbeafe" />
+        <rect x="62" y="96" width="8" height="7" rx="0" fill="#dbeafe" />
+        <rect x="113" y="96" width="8" height="7" rx="0" fill="#dbeafe" />
+      </svg>
+    ),
+  },
+  {
+    value: "simples",
+    nome: "Simples",
+    descricao: "Limpo e direto. Foco no texto e na conversão, sem distração.",
+    preview: (
+      <svg viewBox="0 0 160 110" className="w-full h-full" fill="none">
+        <rect width="160" height="110" rx="6" fill="white" />
+        {/* nav minimal */}
+        <rect x="10" y="8" width="18" height="3" rx="1.5" fill="#111827" />
+        <line x1="0" y1="18" x2="160" y2="18" stroke="#f3f4f6" strokeWidth="1" />
+        {/* hero centralizado */}
+        <rect x="30" y="26" width="100" height="3" rx="1.5" fill="#6b7280" />
+        <rect x="20" y="32" width="120" height="10" rx="2" fill="#111827" />
+        <rect x="25" y="45" width="110" height="2" rx="1" fill="#9ca3af" />
+        <rect x="35" y="49" width="90" height="2" rx="1" fill="#9ca3af" />
+        <rect x="55" y="55" width="50" height="8" rx="4" fill="#111827" />
+        {/* divisor */}
+        <line x1="10" y1="70" x2="150" y2="70" stroke="#f3f4f6" strokeWidth="1" />
+        {/* serviços lista */}
+        <rect x="10" y="75" width="140" height="6" rx="2" fill="#f9fafb" />
+        <rect x="10" y="83" width="140" height="6" rx="2" fill="#f9fafb" />
+        <rect x="10" y="91" width="140" height="6" rx="2" fill="#f9fafb" />
+        <rect x="10" y="99" width="140" height="6" rx="2" fill="#f9fafb" />
+      </svg>
+    ),
+  },
+]
 
 export default function CriarPage() {
   const router = useRouter()
@@ -65,6 +170,7 @@ export default function CriarPage() {
     descricao: "",
     contato: "",
     acao: "",
+    layout: "editorial",
     whatsapp: "",
     telefone: "",
     instagram: "",
@@ -107,7 +213,7 @@ export default function CriarPage() {
       return
     }
     setErro("")
-    if (step < 4) setStep((s) => (s + 1) as Step)
+    if (step < 5) setStep((s) => (s + 1) as Step)
   }
 
   function voltar() {
@@ -125,6 +231,7 @@ export default function CriarPage() {
       body.append("nomeLoja", form.nomeLoja)
       body.append("contato", form.contato)
       body.append("acao", form.acao)
+      body.append("layout", form.layout)
       body.append("whatsapp", form.whatsapp)
       body.append("telefone", form.telefone)
       body.append("instagram", form.instagram)
@@ -144,7 +251,7 @@ export default function CriarPage() {
     }
   }
 
-  const progresso = (step / 4) * 100
+  const progresso = (step / 5) * 100
 
   const etapaAtual = etapas.find((e) => pct >= e.min && pct < e.max) || etapas[etapas.length - 1]
 
@@ -162,7 +269,6 @@ export default function CriarPage() {
           <p className="text-white/60 text-sm font-medium uppercase tracking-widest mb-3">Criando sua presença</p>
           <h2 className="text-white text-2xl font-bold mb-10">{etapaAtual.label}</h2>
 
-          {/* Barra de progresso */}
           <div className="bg-white/20 rounded-full h-3 mb-3 overflow-hidden">
             <div
               className="h-full rounded-full bg-white transition-all duration-300"
@@ -198,7 +304,7 @@ export default function CriarPage() {
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white flex flex-col">
       <nav className="flex items-center justify-between px-6 py-4">
         <span className="font-bold text-xl text-indigo-600">Presença Digital</span>
-        <span className="text-sm text-gray-400">Passo {step} de 4</span>
+        <span className="text-sm text-gray-400">Passo {step} de 5</span>
       </nav>
 
       <div className="w-full h-1 bg-gray-100">
@@ -416,6 +522,48 @@ export default function CriarPage() {
             </div>
           )}
 
+          {/* Step 5 — Layout */}
+          {step === 5 && (
+            <div className="flex flex-col gap-6">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Escolha o visual da página</h1>
+                <p className="text-gray-500 mt-2">Você pode trocar depois, mas escolha o que mais combina com o seu negócio.</p>
+              </div>
+              <div className="flex flex-col gap-4">
+                {layouts.map((l) => (
+                  <button
+                    key={l.value}
+                    onClick={() => setForm({ ...form, layout: l.value })}
+                    className={`rounded-2xl border-2 text-left transition-all overflow-hidden ${
+                      form.layout === l.value
+                        ? "border-indigo-600 ring-2 ring-indigo-100"
+                        : "border-gray-200 hover:border-indigo-300"
+                    }`}
+                  >
+                    {/* Preview visual */}
+                    <div className={`w-full h-40 p-3 transition-colors ${form.layout === l.value ? "bg-indigo-50/50" : "bg-gray-50"}`}>
+                      {l.preview}
+                    </div>
+                    {/* Info */}
+                    <div className={`px-4 py-3 flex items-center justify-between border-t transition-colors ${form.layout === l.value ? "border-indigo-200 bg-white" : "border-gray-100 bg-white"}`}>
+                      <div>
+                        <span className={`font-semibold block text-sm ${form.layout === l.value ? "text-indigo-700" : "text-gray-900"}`}>{l.nome}</span>
+                        <span className="text-xs text-gray-500">{l.descricao}</span>
+                      </div>
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ml-4 transition-all ${form.layout === l.value ? "border-indigo-600 bg-indigo-600" : "border-gray-300"}`}>
+                        {form.layout === l.value && (
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                            <path d="M2 5l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Erro */}
           {erro && (
             <p className="mt-4 text-red-500 text-sm">{erro}</p>
@@ -433,7 +581,7 @@ export default function CriarPage() {
               </button>
             )}
 
-            {step < 4 ? (
+            {step < 5 ? (
               <button
                 onClick={avancar}
                 className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-colors"

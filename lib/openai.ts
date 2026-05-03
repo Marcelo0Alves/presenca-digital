@@ -16,6 +16,7 @@ type ConteudoGerado = Pick<
   | "processo"
   | "faq"
   | "prova"
+  | "servicosOferecidos"
 >
 
 export async function gerarConteudo(
@@ -32,6 +33,7 @@ export async function gerarConteudo(
     | "processo"
     | "faq"
     | "prova"
+    | "servicosOferecidos"
     | "criadoEm"
     | "expiraEm"
     | "pago"
@@ -67,6 +69,12 @@ Retorne JSON exatamente com este formato:
     {"pergunta": "...", "resposta": "..."},
     {"pergunta": "...", "resposta": "..."}
   ],
+  "servicosOferecidos": [
+    {"nome": "nome curto do serviço/produto 1 (2-4 palavras)", "descricao": "1 frase direta descrevendo esse serviço ou produto, do ponto de vista do cliente"},
+    {"nome": "serviço/produto 2", "descricao": "..."},
+    {"nome": "serviço/produto 3", "descricao": "..."},
+    {"nome": "serviço/produto 4", "descricao": "..."}
+  ],
   "textoBio": "bio Instagram até 150 chars com 2-3 emojis: o que faz | para quem | resultado | CTA",
   "copyAnuncio": {
     "versao1": {"titulo": "título foco DOR máx 40 chars", "texto": "2 frases: dor + solução + CTA urgente"},
@@ -79,7 +87,7 @@ Retorne JSON exatamente com este formato:
     model: "gpt-4o-mini",
     messages: [{ role: "user", content: prompt }],
     temperature: 0.7,
-    max_tokens: 1600,
+    max_tokens: 2000,
     response_format: { type: "json_object" },
   })
 

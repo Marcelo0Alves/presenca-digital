@@ -520,6 +520,39 @@ export default function BusinessPage({ data, preview = false }: { data: Business
         </div>
       </section>
 
+      {/* Serviços / O que oferecemos */}
+      {data.servicosOferecidos && data.servicosOferecidos.length > 0 && (
+        <section className="px-6 md:px-8 py-24 md:py-28">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-2xl mb-16">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] mb-4" style={{ color: cor }}>
+                O que oferecemos
+              </p>
+              <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 leading-[1.05] tracking-tight">
+                Serviços e produtos.
+              </h2>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {data.servicosOferecidos.map((s, i) => (
+                <div
+                  key={i}
+                  className="group p-6 rounded-2xl border border-neutral-200/80 bg-white hover:shadow-md transition-all hover:-translate-y-0.5"
+                >
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 text-sm font-bold"
+                    style={{ backgroundColor: rgba(cor, 0.1), color: cor }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <h3 className="font-semibold text-neutral-900 text-base mb-2 leading-snug">{s.nome}</h3>
+                  <p className="text-neutral-500 text-sm leading-relaxed">{s.descricao}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Statement / brand color band */}
       <section className="px-6 md:px-8 py-20 md:py-28 grain relative overflow-hidden" style={{ backgroundColor: cor }}>
         <div className="absolute -bottom-40 -left-32 w-[600px] h-[600px] rounded-full blur-3xl opacity-30" style={{ backgroundColor: corTextoBtn === "#ffffff" ? "white" : "black" }} />
